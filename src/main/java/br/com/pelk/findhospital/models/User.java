@@ -1,6 +1,7 @@
 package br.com.pelk.findhospital.models;
 
 public class User {
+    private String id;
     private String name;
     private String lastName;
     private String email;
@@ -13,7 +14,8 @@ public class User {
     private String phoneNumber;
     private boolean location;
 
-    public User(String name, String lastName, String email, String username, String password, String rg, String cpf, String adress, String cep, String phoneNumber, boolean location) {
+    public User(String id, String name, String lastName, String email, String username, String password, String rg, String cpf, String adress, String cep, String phoneNumber, boolean location) {
+        this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.email = email;
@@ -25,6 +27,14 @@ public class User {
         this.cep = cep;
         this.phoneNumber = phoneNumber;
         this.location = location;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

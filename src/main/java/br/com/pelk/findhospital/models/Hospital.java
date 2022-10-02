@@ -1,9 +1,47 @@
 package br.com.pelk.findhospital.models;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Hospital implements Serializable{
     private String name;
-    private ;
-    private ArrayList<Clinica>
+    private Localization localization;
+    private ArrayList<Clinic> clinics;
+    
+    public Hospital() {
+    	
+    }
+    
+	public Hospital(String name, Localization localization, ArrayList<Clinic> clinics) {
+		super();
+		this.name = name;
+		this.localization = localization;
+		this.clinics = clinics;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Localization getLocalization() {
+		return localization;
+	}
+
+	public void setLocalization(Localization localization) {
+		this.localization = localization;
+	}
+
+	public ArrayList<Clinic> getClinics() {
+		return clinics;
+	}
+
+	public void setClinics(ArrayList<Clinic> clinics) {
+		this.clinics = clinics;
+	}
+    
+    
     
 }

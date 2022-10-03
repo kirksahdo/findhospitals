@@ -2,6 +2,7 @@ package br.com.pelk.findhospital.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Clinic implements Serializable{
     private String specialization;
@@ -11,11 +12,16 @@ public class Clinic implements Serializable{
     public Clinic() {
     	
     }
+    public Clinic(String specialization, Doctor doctor, Schedule schedule) {
+		super();
+		this.specialization = specialization;
+		this.listDoctors = new ArrayList<>(Arrays.asList(doctor));
+		this.schedule = schedule;
     
 	public Clinic(String specialization, ArrayList<Doctor> listDoctors, Schedule schedule) {
 		super();
 		this.specialization = specialization;
-		this.listDoctors = new ArrayList<Doctor>();
+		this.listDoctors = listDoctors;
 		this.schedule = schedule;
 	}
 	public String getSpecialization() {

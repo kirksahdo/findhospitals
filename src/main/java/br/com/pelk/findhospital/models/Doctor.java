@@ -6,8 +6,8 @@ import java.io.Serializable;
 public class Doctor extends User implements Serializable{
     private String formation;
     
-    public Doctor(String id, String name, String lastName, String email, String username, String password, String rg, String cpf, String adress, String cep, String phoneNumber, boolean location, String formation) {
-        super(id, name, lastName, email, username, password, rg, cpf, adress, cep, phoneNumber, location);
+    public Doctor(String id, String name, String lastName, String email, String username, String password, String rg, String cpf, String adress, String cep, String phoneNumber, Localization localization, String formation) {
+        super(id, name, lastName, email, username, password, rg, cpf, adress, cep, phoneNumber, localization);
         this.formation = formation;
     }
 

@@ -14,7 +14,7 @@ public final class UserService {
         User user;
         ArrayList<User> users = UserSerialization.readFile();
         for(User u : users) { 
-            if (u.getId() == id) { 
+            if (u.getId().equalsIgnoreCase(id)) { 
                 return u;
             }
         }
@@ -25,7 +25,7 @@ public final class UserService {
         ArrayList<User> users = UserSerialization.readFile();
         
         for(User u : users) { 
-            if(u.getId() == user.getId()) { 
+            if(u.getId().equalsIgnoreCase(user.getId())) { 
                 users.remove(user);
                 return;
             }
@@ -37,7 +37,7 @@ public final class UserService {
         ArrayList<User> users = UserSerialization.readFile();
         
         for(User u : users) { 
-            if(u.getId() == user.getId()) { 
+            if(u.getId().equalsIgnoreCase(user.getId())) { 
                 users.remove(u);
                 users.add(user);
                 UserSerialization.writeFile(users);

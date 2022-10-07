@@ -28,8 +28,4 @@ public class Schedule {
 		System.out.println("________________________");	
 	}
 	
-	public int hashDate(Appointment appointment) {
-		return (int) LocalDateTime.now().until(appointment.getAppointmentDate(), ChronoUnit.DAYS);
-		
-	}
 }

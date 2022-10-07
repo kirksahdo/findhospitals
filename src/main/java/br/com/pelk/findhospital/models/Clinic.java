@@ -9,14 +9,15 @@ public class Clinic implements Serializable{
     private ArrayList<Doctor> listDoctors;
     private Schedule schedule;
     
-    public Clinic() {
-    	
+    public Clinic() {	
     }
+    
     public Clinic(String specialization, Doctor doctor, Schedule schedule) {
 		super();
 		this.specialization = specialization;
 		this.listDoctors = new ArrayList<>(Arrays.asList(doctor));
 		this.schedule = schedule;
+    }
     
 	public Clinic(String specialization, ArrayList<Doctor> listDoctors, Schedule schedule) {
 		super();

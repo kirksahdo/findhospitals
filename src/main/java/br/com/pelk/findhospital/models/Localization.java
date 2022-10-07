@@ -1,4 +1,3 @@
-
 package br.com.pelk.findhospital.models;
 
 import java.io.Serializable;
@@ -9,6 +8,13 @@ public class Localization implements Serializable{
     private String number;
     private String cep;
     private String complement;
+    
+    public Localization(String road, String district, String number, String cep) {
+        this.road = road;
+        this.district = district;
+        this.number = number;
+        this.cep = cep;
+    }
 
     public Localization(String road, String district, String number, String cep, String complement) {
         this.road = road;
@@ -16,6 +22,11 @@ public class Localization implements Serializable{
         this.number = number;
         this.cep = cep;
         this.complement = complement;
+    }
+    
+    public String toStringLocalization() {
+    	return road + " " + number + ", " + district + ". " + complement +
+    			 cep;
     }
 
     public String getRoad() {

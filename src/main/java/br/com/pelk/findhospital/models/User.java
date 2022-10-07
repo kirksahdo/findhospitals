@@ -14,9 +14,9 @@ public class User implements Serializable {
     private String adress;
     private String cep;
     private String phoneNumber;
-    private boolean location;
+    private Localization location;
 
-    public User(String id, String name, String lastName, String email, String username, String password, String rg, String cpf, String adress, String cep, String phoneNumber, boolean location) {
+    public User(String id, String name, String lastName, String email, String username, String password, String rg, String cpf, String adress, String cep, String phoneNumber, Localization location) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -119,13 +119,15 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public boolean isLocation() {
-        return location;
-    }
+	public Localization getLocation() {
+		return location;
+	}
 
-    public void setLocation(boolean location) {
-        this.location = location;
-    }
+	public void setLocation(Localization location) {
+		this.location = location;
+	}
+
+
     
     
 }

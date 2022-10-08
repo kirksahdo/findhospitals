@@ -9,6 +9,10 @@ public class Localization implements Serializable{
     private String cep;
     private String complement;
     
+    public Localization() {
+        
+    }
+    
     public Localization(String road, String district, String number, String cep) {
         this.road = road;
         this.district = district;

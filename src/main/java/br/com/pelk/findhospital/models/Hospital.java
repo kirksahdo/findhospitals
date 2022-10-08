@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Hospital implements Serializable{
+    private String id;
     private String name;
     private Localization localization;
     private ArrayList<Clinic> clinics;
@@ -12,7 +13,7 @@ public class Hospital implements Serializable{
     	
     }
     
-    public Hospital(String name, Localization localization, Clinic clinic) {
+    public Hospital(String id, String name, Localization localization, Clinic clinic) {
             super();
             this.name = name;
             this.localization = localization;
@@ -50,6 +51,12 @@ public class Hospital implements Serializable{
             this.clinics = clinics;
     }
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
     
 }

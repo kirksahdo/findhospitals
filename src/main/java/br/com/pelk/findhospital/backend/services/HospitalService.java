@@ -1,49 +1,49 @@
 package br.com.pelk.findhospital.backend.services;
 
-import br.com.pelk.findhospital.backend.serialization.UserSerialization;
-import br.com.pelk.findhospital.exceptions.UserNotFoundException;
-import br.com.pelk.findhospital.models.User;
+import br.com.pelk.findhospital.backend.serialization.HospitalSerialization;
+import br.com.pelk.findhospital.exceptions.HospitalNotFoundException;
+import br.com.pelk.findhospital.models.Hospital;
 import java.util.ArrayList;
 
-public final class UserService {
-    public static void createUser(User user) {
-        UserSerialization.writeFile(user);
+public final class HospitalService {
+    public static void createHospital(Hospital hospital) {
+        HospitalSerialization.writeFile(hospital);
     }
     
-    public static User getUser(String id) throws UserNotFoundException {
-        User user;
-        ArrayList<User> users = UserSerialization.readFile();
-        for(User u : users) { 
+    public static Hospital getHospital(String id) throws HospitalNotFoundException {
+        Hospital hospital;
+        ArrayList<Hospital> hospitals = HospitalSerialization.readFile();
+        for(Hospital u : hospitals) { 
             if (u.getId().equalsIgnoreCase(id)) { 
                 return u;
             }
         }
-        throw new UserNotFoundException();
+        throw new HospitalNotFoundException();
     }
     
-    public static void deleteUser(User user) throws UserNotFoundException {
-        ArrayList<User> users = UserSerialization.readFile();
+    public static void deleteHospital(Hospital hospital) throws HospitalNotFoundException {
+        ArrayList<Hospital> hospitals = HospitalSerialization.readFile();
         
-        for(User u : users) { 
-            if(u.getId().equalsIgnoreCase(user.getId())) { 
-                users.remove(user);
+        for(Hospital u : hospitals) { 
+            if(u.getId().equalsIgnoreCase(hospital.getId())) { 
+                hospitals.remove(hospital);
                 return;
             }
         }
-        throw new UserNotFoundException();
+        throw new HospitalNotFoundException();
     }
     
-    public static void editUser(User user) throws UserNotFoundException { 
-        ArrayList<User> users = UserSerialization.readFile();
+    public static void editHospital(Hospital hospital) throws HospitalNotFoundException { 
+        ArrayList<Hospital> hospitals = HospitalSerialization.readFile();
         
-        for(User u : users) { 
-            if(u.getId().equalsIgnoreCase(user.getId())) { 
-                users.remove(u);
-                users.add(user);
-                UserSerialization.writeFile(users);
+        for(Hospital u : hospitals) { 
+            if(u.getId().equalsIgnoreCase(hospital.getId())) { 
+                hospitals.remove(u);
+                hospitals.add(hospital);
+                HospitalSerialization.writeFile(hospitals);
                 return;
             }
         }
-        throw new UserNotFoundException();
+        throw new HospitalNotFoundException();
     }
 }

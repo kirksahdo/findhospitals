@@ -22,7 +22,6 @@ public final class UserSerialization {
         try {
             FileInputStream fileInputStream = new FileInputStream(FILE_NAME);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            User user;
             Object object;
             object = objectInputStream.readObject();
             
@@ -32,9 +31,7 @@ public final class UserSerialization {
             objectInputStream.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(UserSerialization.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(UserSerialization.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(UserSerialization.class.getName()).log(Level.SEVERE, null, ex);
         }
         return users;
@@ -42,6 +39,9 @@ public final class UserSerialization {
     
     public static void writeFile(User user) {
         ArrayList<User> users = readFile();
+        if (users == null) {
+            users = new ArrayList<>();
+        }
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(FILE_NAME);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);

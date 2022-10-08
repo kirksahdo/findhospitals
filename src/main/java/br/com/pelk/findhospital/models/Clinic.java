@@ -13,37 +13,51 @@ public class Clinic implements Serializable{
     }
     
     public Clinic(String specialization, Doctor doctor, Schedule schedule) {
-		super();
-		this.specialization = specialization;
-		this.listDoctors = new ArrayList<>(Arrays.asList(doctor));
-		this.schedule = schedule;
+        super();
+        this.specialization = specialization;
+        this.listDoctors = new ArrayList<>(Arrays.asList(doctor));
+        this.schedule = schedule;
     }
     
-	public Clinic(String specialization, ArrayList<Doctor> listDoctors, Schedule schedule) {
-		super();
-		this.specialization = specialization;
-		this.listDoctors = listDoctors;
-		this.schedule = schedule;
-	}
-	public String getSpecialization() {
-		return specialization;
-	}
-	public void setSpecialization(String specialization) {
-		this.specialization = specialization;
-	}
-	public ArrayList<Doctor> getListDoctors() {
-		return listDoctors;
-	}
-	public void setListDoctors(ArrayList<Doctor> listDoctors) {
-		this.listDoctors = listDoctors;
-	}
-	public Schedule getSchedule() {
-		return schedule;
-	}
-	public void setSchedule(Schedule schedule) {
-		this.schedule = schedule;
-	}
+    public Clinic(String specialization, ArrayList<Doctor> listDoctors, Schedule schedule) {
+        super();
+        this.specialization = specialization;
+        this.listDoctors = listDoctors;
+        this.schedule = schedule;
+    }
     
+    public String getSpecialization() {
+        return specialization;
+    }
     
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
+    }
+    
+    public void addDoctor(Doctor doctor) {
+            this.listDoctors.add(doctor);
+    }
+    
+    public void removeDoctor(Doctor doctor) {
+        if (this.listDoctors.contains(doctor)) {
+            this.listDoctors.remove(doctor);
+        }
+    }
+    
+    public ArrayList<Doctor> getListDoctors() {
+        return listDoctors;
+    }
+    
+    public void setListDoctors(ArrayList<Doctor> listDoctors) {
+        this.listDoctors = listDoctors;
+    }
+    
+    public Schedule getSchedule() {
+        return schedule;
+    }
+    
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
     
 }

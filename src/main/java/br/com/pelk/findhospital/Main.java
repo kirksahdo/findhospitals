@@ -1,10 +1,10 @@
 package br.com.pelk.findhospital;
 
-import br.com.pelk.findhospital.frames.NotLoggedFrame;
+import br.com.pelk.findhospital.frames.LoginFrame;
 
 public class Main {
     public static void main(String[] args) {
-        NotLoggedFrame frame = new NotLoggedFrame();
+        LoginFrame frame = new LoginFrame();
         frame.setVisible(true);
     }
 }

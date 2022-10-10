@@ -20,7 +20,7 @@ public class Doctor extends User implements Serializable{
     }
     
     public void completeConsultation(){
-        
+            
     }
     public void postponeConsultation(){
         

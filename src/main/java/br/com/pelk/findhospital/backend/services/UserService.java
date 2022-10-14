@@ -11,10 +11,19 @@ public final class UserService {
     }
     
     public static User getUser(String id) throws UserNotFoundException {
-        User user;
         ArrayList<User> users = UserSerialization.readFile();
         for(User u : users) { 
             if (u.getId().equalsIgnoreCase(id)) { 
+                return u;
+            }
+        }
+        throw new UserNotFoundException();
+    }
+    
+    public static User getUserByUsername(String username) throws UserNotFoundException {
+        ArrayList<User> users = UserSerialization.readFile();
+        for(User u : users) { 
+            if (u.getUsername().equalsIgnoreCase(username)) { 
                 return u;
             }
         }

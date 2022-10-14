@@ -2,10 +2,16 @@ package br.com.pelk.findhospital.backend.services;
 
 import br.com.pelk.findhospital.backend.serialization.UserSerialization;
 import br.com.pelk.findhospital.exceptions.UserNotFoundException;
+import br.com.pelk.findhospital.frames.LoginFrame;
 import br.com.pelk.findhospital.models.User;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
 
 public final class UserService {
+    private static User user;
+    
     public static void createUser(User user) {
         UserSerialization.writeFile(user);
     }
@@ -54,5 +60,35 @@ public final class UserService {
             }
         }
         throw new UserNotFoundException();
+    }
+    
+    public static User getUser() {
+        return user;
+    }
+
+    public static void setUser(User user) {
+        UserService.user = user;
+    }
+    
+    public static boolean login(String username, String password) {
+        try {
+            User user = UserService.getUserByUsername(username);
+            if (! user.getPassword().equals(password)) {
+                return false;
+            }
+            UserService.setUser(user);
+            return true;
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    
+    public static void logout(JFrame frame) {
+        UserService.setUser(null);
+        frame.setVisible(false);
+        frame.dispose();
+        LoginFrame loginFrame = new LoginFrame();
+        loginFrame.setVisible(true);
     }
 }

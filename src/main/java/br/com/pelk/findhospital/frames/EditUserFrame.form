@@ -108,7 +108,7 @@
                                       <Component id="txtRg" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
                                       <Component id="txtCep" alignment="0" min="-2" pref="162" max="-2" attributes="0"/>
                                       <Component id="txtLocation" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextField1" alignment="0" min="-2" pref="183" max="-2" attributes="0"/>
+                                      <Component id="txtNewPassword" alignment="0" min="-2" pref="183" max="-2" attributes="0"/>
                                       <Component id="jLabel12" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -146,7 +146,7 @@
                   <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="txtPassword" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtNewPassword" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -305,9 +305,9 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtPhone">
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="txtNewPassword">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNewPasswordActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel12">

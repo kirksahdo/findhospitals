@@ -4,7 +4,7 @@
  */
 package br.com.pelk.findhospital.frames;
 import br.com.pelk.findhospital.backend.services.UserService;
-import br.com.pelk.findhospital.exceptions.UserAlreadExistException;
+import br.com.pelk.findhospital.exceptions.*;
 import br.com.pelk.findhospital.models.Localization;
 import br.com.pelk.findhospital.models.User;
 import java.util.UUID;
@@ -58,7 +58,7 @@ public class EditUserFrame extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         txtPhone = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
+        txtNewPassword = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -141,9 +141,9 @@ public class EditUserFrame extends javax.swing.JFrame {
 
         jLabel11.setText("Telefone");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtNewPasswordActionPerformed(evt);
             }
         });
 
@@ -202,7 +202,7 @@ public class EditUserFrame extends javax.swing.JFrame {
                                     .addComponent(txtRg, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtCep, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtLocation)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(33, 33, 33))
@@ -230,7 +230,7 @@ public class EditUserFrame extends javax.swing.JFrame {
                 .addGap(8, 8, 8)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -329,20 +329,25 @@ public class EditUserFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Há campo(s) obrigatório(s) em branco!", "Erro!", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        if (this.validatePassword()){
+            JOptionPane.showMessageDialog(this, "Senha Incorreta!", "Erro!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        // Precisa alterar o editUser
         try {
-            UserService.register(newUser);
-            JOptionPane.showMessageDialog(this, "Usuário registrado com sucesso!", "Sucesso!", JOptionPane.DEFAULT_OPTION);
-            LoginFrame login = new LoginFrame();
-            login.setVisible(true);
+            UserService.editUser(UserService.getUser());
+            JOptionPane.showMessageDialog(this, "Usuário Editado com sucesso!", "Sucesso!", JOptionPane.DEFAULT_OPTION);
+            TelaPrincipalFrame fp = new TelaPrincipalFrame();
+            fp.setVisible(true);
             this.dispose();
-        } catch (UserAlreadExistException ex) {
-            JOptionPane.showMessageDialog(this, "Usuário com email/username existente!", "Erro!", JOptionPane.ERROR_MESSAGE);
+        } catch (UserNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Usuário com erro", "Erro!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtNewPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNewPasswordActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtNewPasswordActionPerformed
     
     private boolean validateFields() {
         String name = txtNome.getText();
@@ -355,6 +360,16 @@ public class EditUserFrame extends javax.swing.JFrame {
         String cep = txtCep.getText();
         String phone = txtPhone.getText();
         return (name.isBlank() || lastName.isBlank() || email.isBlank() || password.isBlank() || rg.isBlank() || cpf.isBlank() || adress.isBlank() || cep.isBlank() || phone.isBlank());
+    }
+    
+    private boolean validatePassword(){
+        if( new String(this.txtPassword.getPassword()).equals(UserService.getUser().getPassword())){
+            return false;
+        }else{
+            return true;
+        }
+        
+        
     }
     
     private void fillFields(){
@@ -418,13 +433,13 @@ public class EditUserFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField txtAdress;
     private javax.swing.JTextField txtCep;
     private javax.swing.JTextField txtCpf;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtLastName;
     private javax.swing.JCheckBox txtLocation;
+    private javax.swing.JTextField txtNewPassword;
     private javax.swing.JTextField txtNome;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtPhone;

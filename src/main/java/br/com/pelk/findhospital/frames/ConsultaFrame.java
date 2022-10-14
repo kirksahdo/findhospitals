@@ -14,6 +14,7 @@ public class ConsultaFrame extends javax.swing.JFrame {
      * Creates new form ConsultaFrame
      */
     public ConsultaFrame() {
+        setLocationRelativeTo(null);
         initComponents();
     }
 

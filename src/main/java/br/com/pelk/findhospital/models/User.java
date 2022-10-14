@@ -30,7 +30,7 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
         this.location = location;
     }
-
+    
     public String getId() {
         return id;
     }

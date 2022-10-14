@@ -14,6 +14,7 @@ public class Admin2Frame extends javax.swing.JFrame {
      * Creates new form Admin2Frame
      */
     public Admin2Frame() {
+        setLocationRelativeTo(null);
         initComponents();
     }
 

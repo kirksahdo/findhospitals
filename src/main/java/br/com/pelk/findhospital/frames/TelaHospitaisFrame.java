@@ -14,6 +14,7 @@ public class TelaHospitaisFrame extends javax.swing.JFrame {
      * Creates new form TelaHospitaisFrame
      */
     public TelaHospitaisFrame() {
+        setLocationRelativeTo(null);
         initComponents();
     }
 

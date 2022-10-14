@@ -6,6 +6,7 @@ public class NotLoggedFrame extends javax.swing.JFrame {
      * Creates new form NotLoggedFrame
      */
     public NotLoggedFrame() {
+        setLocationRelativeTo(null);
         initComponents();
     }
 

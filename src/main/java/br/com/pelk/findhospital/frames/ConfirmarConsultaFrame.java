@@ -16,6 +16,7 @@ public class ConfirmarConsultaFrame extends javax.swing.JFrame {
      * Creates new form ConfirmarConsultaFrame
      */
     public ConfirmarConsultaFrame() {
+        setLocationRelativeTo(null);
         initComponents();
     }
 

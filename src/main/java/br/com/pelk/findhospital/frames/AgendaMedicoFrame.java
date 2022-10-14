@@ -14,6 +14,7 @@ public class AgendaMedicoFrame extends javax.swing.JFrame {
      * Creates new form AgendaMedicoFrame
      */
     public AgendaMedicoFrame() {
+        setLocationRelativeTo(null);
         initComponents();
     }
 

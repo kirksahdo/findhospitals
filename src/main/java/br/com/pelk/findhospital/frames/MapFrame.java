@@ -14,6 +14,7 @@ public class MapFrame extends javax.swing.JFrame {
      * Creates new form MapFrame
      */
     public MapFrame() {
+        setLocationRelativeTo(null);
         initComponents();
     }
 

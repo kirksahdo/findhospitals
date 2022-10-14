@@ -14,6 +14,7 @@ public class HospitaisFrame extends javax.swing.JFrame {
      * Creates new form HospitaisFrame
      */
     public HospitaisFrame() {
+        setLocationRelativeTo(null);
         initComponents();
     }
 

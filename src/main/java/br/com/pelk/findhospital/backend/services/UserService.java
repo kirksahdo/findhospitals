@@ -1,6 +1,7 @@
 package br.com.pelk.findhospital.backend.services;
 
 import br.com.pelk.findhospital.backend.serialization.UserSerialization;
+import br.com.pelk.findhospital.exceptions.UserAlreadExistException;
 import br.com.pelk.findhospital.exceptions.UserNotFoundException;
 import br.com.pelk.findhospital.frames.LoginFrame;
 import br.com.pelk.findhospital.models.User;
@@ -30,6 +31,16 @@ public final class UserService {
         ArrayList<User> users = UserSerialization.readFile();
         for(User u : users) { 
             if (u.getUsername().equalsIgnoreCase(username)) { 
+                return u;
+            }
+        }
+        throw new UserNotFoundException();
+    }
+    
+    public static User getUserByEmail(String email) throws UserNotFoundException {
+        ArrayList<User> users = UserSerialization.readFile();
+        for(User u : users) { 
+            if (u.getEmail().equalsIgnoreCase(email)) { 
                 return u;
             }
         }
@@ -79,7 +90,6 @@ public final class UserService {
             UserService.setUser(user);
             return true;
         } catch (UserNotFoundException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -90,5 +100,19 @@ public final class UserService {
         frame.dispose();
         LoginFrame loginFrame = new LoginFrame();
         loginFrame.setVisible(true);
+    }
+    
+    public static void register(User user) throws UserAlreadExistException{ 
+        try {
+            UserService.getUserByEmail(user.getEmail());
+            throw new UserAlreadExistException();
+        } catch (UserNotFoundException ex) {
+            try {
+                UserService.getUserByUsername(user.getUsername());
+                
+            } catch (UserNotFoundException ex1) {
+                UserService.createUser(user);
+            }
+        }
     }
 }

@@ -1,7 +1,7 @@
 package br.com.pelk.findhospital.exceptions;
 
-public class UserNotFoundException extends Exception{
-    public UserNotFoundException() {
-        super("User not found!");
+public class UserAlreadExistException extends Exception{
+    public UserAlreadExistException() {
+        super("User already exist!");
     }
 }

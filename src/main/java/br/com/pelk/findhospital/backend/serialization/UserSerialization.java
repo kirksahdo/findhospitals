@@ -24,7 +24,6 @@ public final class UserSerialization {
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             Object object;
             object = objectInputStream.readObject();
-            
             if(object != null) users = (ArrayList<User>) object;
             
             fileInputStream.close();

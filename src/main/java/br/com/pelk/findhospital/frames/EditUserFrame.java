@@ -37,7 +37,6 @@ public class EditUserFrame extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         txtNome = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtRg = new javax.swing.JTextField();
@@ -60,8 +59,10 @@ public class EditUserFrame extends javax.swing.JFrame {
         txtPhone = new javax.swing.JTextField();
         txtNewPassword = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(156, 211, 170));
 
         txtNome.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
@@ -77,12 +78,6 @@ public class EditUserFrame extends javax.swing.JFrame {
                 txtNomeActionPerformed(evt);
             }
         });
-
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Editar Usuário");
-        jLabel1.setOpaque(true);
 
         jLabel2.setText("Nome");
 
@@ -153,7 +148,6 @@ public class EditUserFrame extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -210,8 +204,7 @@ public class EditUserFrame extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(45, 45, 45)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel2))
@@ -264,19 +257,27 @@ public class EditUserFrame extends javax.swing.JFrame {
                         .addGap(23, 23, 23))))
         );
 
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Editar Perfil");
+        jLabel1.setOpaque(true);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -315,16 +316,20 @@ public class EditUserFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String id = UUID.randomUUID().toString();
+        User userLogged = UserService.getUser();
+        String username = userLogged.getUsername();
+        String id = userLogged.getId();
         String name = txtNome.getText();
         String lastName = txtLastName.getText();
         String email = txtEmail.getText();
         String password = new String(txtPassword.getPassword());
+        String newPassword = new String(txtNewPassword.getText());
         String rg = txtRg.getText();
         String cpf = txtCpf.getText();
         String adress = txtAdress.getText();
         String cep = txtCep.getText();
         String phone = txtPhone.getText();
+        User newUserData = new User(id, name, lastName, email, username, newPassword, rg, cpf, adress, cep, phone, new Localization());
         if (this.validateFields()) {
             JOptionPane.showMessageDialog(this, "Há campo(s) obrigatório(s) em branco!", "Erro!", JOptionPane.ERROR_MESSAGE);
             return;
@@ -335,7 +340,8 @@ public class EditUserFrame extends javax.swing.JFrame {
         }
         // Precisa alterar o editUser
         try {
-            UserService.editUser(UserService.getUser());
+            UserService.editUser(newUserData);
+            UserService.setUser(newUserData);
             JOptionPane.showMessageDialog(this, "Usuário Editado com sucesso!", "Sucesso!", JOptionPane.DEFAULT_OPTION);
             TelaPrincipalFrame fp = new TelaPrincipalFrame();
             fp.setVisible(true);

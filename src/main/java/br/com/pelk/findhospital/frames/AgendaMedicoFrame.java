@@ -10,7 +10,7 @@ import java.util.Date;
  *
  * @author eric
  */
-public class AgendaMedicoFrame extends javax.swing.JFrame {
+public class AgendaMedicoFrame extends javax.swing.JFrame{
 
     /**
      * Creates new form AgendaMedicoFrame

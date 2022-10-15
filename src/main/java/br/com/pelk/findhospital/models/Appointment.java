@@ -18,15 +18,15 @@ public class Appointment implements Serializable{
 	
 	
 	public Appointment(User user, int year, int month, int day, int hour, int minute, String doctorId, String clinicId) {
-		super();
-		this.user = user;
-		try {
-			this.appointmentDate = LocalDateTime.of(year, month, day, hour, minute);
-		}catch (DateTimeException e) {
-			e.printStackTrace();
-		}
-		this.doctor = doctorId;
-		this.clinic = clinicId;
+            super();
+            this.user = user;
+            try {
+                this.appointmentDate = LocalDateTime.of(year, month, day, hour, minute);
+            }catch (DateTimeException e) {
+                e.printStackTrace();
+            }
+            this.doctor = doctorId;
+            this.clinic = clinicId;
 	}
 	
 	@Override

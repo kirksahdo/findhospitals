@@ -1,8 +1,9 @@
 package br.com.pelk.findhospital.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Schedule {
+public class Schedule implements Serializable{
     private String id;
     private ArrayList<Appointment> appointments = new ArrayList<>();
 

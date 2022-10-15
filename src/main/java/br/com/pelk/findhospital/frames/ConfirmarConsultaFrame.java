@@ -4,6 +4,17 @@
  */
 package br.com.pelk.findhospital.frames;
 
+import br.com.pelk.findhospital.backend.services.ScheduleService;
+import br.com.pelk.findhospital.exceptions.ScheduleNotFoundException;
+import br.com.pelk.findhospital.models.Appointment;
+import br.com.pelk.findhospital.models.Clinic;
+import br.com.pelk.findhospital.models.Doctor;
+import br.com.pelk.findhospital.models.Hospital;
+import br.com.pelk.findhospital.models.Schedule;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,14 +23,41 @@ import javax.swing.JOptionPane;
  */
 public class ConfirmarConsultaFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ConfirmarConsultaFrame
-     */
+    private Hospital hospital;
+    private Clinic clinic;
+    private Doctor doctor;
+    private Appointment appointment;
+    private AgendaMedicoFrame agendaMedicoFrame;
+    
     public ConfirmarConsultaFrame() {
         setLocationRelativeTo(null);
         initComponents();
     }
+    
+    public ConfirmarConsultaFrame(AgendaMedicoFrame agendaMedicoFrame, Hospital hospital, Clinic clinic, Doctor doctor, Appointment appointment) {
+        setLocationRelativeTo(null);
+        this.agendaMedicoFrame = agendaMedicoFrame;
+        this.hospital = hospital;
+        this.clinic = clinic;
+        this.doctor = doctor;
+        this.appointment = appointment;
+        initComponents();
+        setComponentsData();
+        
+    }
 
+    private void setComponentsData() {
+        lblHospitalName.setText(hospital.getName());
+        lblClinicName.setText(clinic.getSpecialization());
+        lblDoctorName.setText(doctor.getName());
+        LocalDateTime localDateTime = appointment.getAppointmentDate();
+        String date = localDateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String hour = localDateTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+        lblDate.setText(date);
+        lblHour.setText(hour);
+        lblLocation.setText(hospital.getLocalization().toString());
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,14 +74,14 @@ public class ConfirmarConsultaFrame extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        HospNome = new javax.swing.JLabel();
-        ClinicaNome = new javax.swing.JLabel();
-        MedicoNome = new javax.swing.JLabel();
-        data = new javax.swing.JLabel();
-        localizacao = new javax.swing.JLabel();
+        lblHospitalName = new javax.swing.JLabel();
+        lblClinicName = new javax.swing.JLabel();
+        lblDoctorName = new javax.swing.JLabel();
+        lblDate = new javax.swing.JLabel();
+        lblLocation = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        localizacao1 = new javax.swing.JLabel();
+        btnCancel = new javax.swing.JButton();
+        lblHour = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,15 +100,15 @@ public class ConfirmarConsultaFrame extends javax.swing.JFrame {
 
         jLabel7.setText("Horário:");
 
-        HospNome.setText("placeholder");
+        lblHospitalName.setText("placeholder");
 
-        ClinicaNome.setText("placeholder");
+        lblClinicName.setText("placeholder");
 
-        MedicoNome.setText("placeholder");
+        lblDoctorName.setText("placeholder");
 
-        data.setText("placeholder");
+        lblDate.setText("placeholder");
 
-        localizacao.setText("placeholder");
+        lblLocation.setText("placeholder");
 
         jButton1.setText("Confirmar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -79,106 +117,113 @@ public class ConfirmarConsultaFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Cancelar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnCancelActionPerformed(evt);
             }
         });
 
-        localizacao1.setText("placeholder");
+        lblHour.setText("placeholder");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(HospNome, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ClinicaNome)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(data, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                        .addComponent(MedicoNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(113, 113, 113))
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblHospitalName, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblClinicName, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDoctorName, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-                            .addGap(43, 43, 43))
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addGap(55, 55, 55)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(localizacao, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(localizacao1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(68, Short.MAX_VALUE))
+                            .addContainerGap()
+                            .addComponent(lblDate, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(69, 69, 69)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(43, 43, 43))
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(btnCancel)
+                                    .addGap(53, 53, 53)
+                                    .addComponent(jButton1))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel6))
+                                    .addGap(37, 37, 37)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lblLocation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblHour, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel1)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(HospNome))
+                    .addComponent(lblHospitalName))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(ClinicaNome))
+                    .addComponent(lblClinicName))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(MedicoNome))
+                    .addComponent(lblDoctorName))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(data))
+                    .addComponent(lblDate))
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(localizacao))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(lblLocation))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblHour)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(localizacao1))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(7, 7, 7))
+                    .addComponent(btnCancel)
+                    .addComponent(jButton1))
+                .addGap(16, 16, 16))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-        JOptionPane.showMessageDialog(null, "Confirmado", "Consulta Confirmada", JOptionPane.WARNING_MESSAGE);
-        TelaPrincipalFrame tl = new TelaPrincipalFrame();
-        tl.setVisible(true);
+        
+        try {
+            Schedule schedule = ScheduleService.getSchedule(clinic.getScheduleId());
+            schedule.addAppointment(appointment);
+            ScheduleService.editSchedule(schedule);
+            JOptionPane.showMessageDialog(null, "Confirmado", "Consulta Confirmada", JOptionPane.WARNING_MESSAGE);
+            agendaMedicoFrame.dispose();
+            this.dispose();
+            TelaPrincipalFrame tl = new TelaPrincipalFrame();
+            tl.setVisible(true);
+        } catch (ScheduleNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Erro no sistema, contate um administrador!", "Erro!", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(ConfirmarConsultaFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
-        TelaHospitaisFrame hosp = new TelaHospitaisFrame();
-        hosp.setVisible(true);
+        agendaMedicoFrame.setEnabled(true);
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -217,12 +262,8 @@ public class ConfirmarConsultaFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel ClinicaNome;
-    private javax.swing.JLabel HospNome;
-    private javax.swing.JLabel MedicoNome;
-    private javax.swing.JLabel data;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -230,7 +271,11 @@ public class ConfirmarConsultaFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel localizacao;
-    private javax.swing.JLabel localizacao1;
+    private javax.swing.JLabel lblClinicName;
+    private javax.swing.JLabel lblDate;
+    private javax.swing.JLabel lblDoctorName;
+    private javax.swing.JLabel lblHospitalName;
+    private javax.swing.JLabel lblHour;
+    private javax.swing.JLabel lblLocation;
     // End of variables declaration//GEN-END:variables
 }

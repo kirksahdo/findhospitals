@@ -1,10 +1,13 @@
 package br.com.pelk.findhospital.models;
 import br.com.pelk.findhospital.backend.services.ClinicService;
+import br.com.pelk.findhospital.backend.services.DoctorService;
+import br.com.pelk.findhospital.exceptions.ClinicNotFoundException;
+import br.com.pelk.findhospital.exceptions.DoctorNotFoundException;
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Appointment implements Serializable{
@@ -28,10 +31,18 @@ public class Appointment implements Serializable{
 	
 	@Override
 	public String toString() {
-            Clinic clinic = ClinicService.getClinic(this.clinic);
-            Clinic doctor = ClinicService.getClinic(this.clinic);
-            return user.getId() + "/" + user.getName() + " " + user.getLastName() + "---" + clinic.getSpecialization() + "-" + doctor.getName() + "--- Data:" + appointmentDate;
+            try {
+                Clinic clinic = ClinicService.getClinic(this.clinic);
+                Doctor doctor = DoctorService.getDoctor(this.doctor);
+                return user.getId() + "/" + user.getName() + " " + user.getLastName() + "---" + clinic.getSpecialization() + "-" + doctor.getName() + "--- Data:" + appointmentDate;
+            } catch (ClinicNotFoundException ex) {
+                Logger.getLogger(Appointment.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (DoctorNotFoundException ex) {
+                Logger.getLogger(Appointment.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return "";
 	}
+        
 	public User getUser() {
 		return user;
 	}

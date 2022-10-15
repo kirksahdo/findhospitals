@@ -147,7 +147,7 @@ public class HospitaisFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Você precisa selecionar um hospital!", "Erro!", JOptionPane.ERROR_MESSAGE);
         } else {
             Hospital hospital = this.hospitalTableModel.getValueAt(this.tableHospitals.getSelectedRow());
-            TelaHospitaisFrame telaHosp = new TelaHospitaisFrame();;
+            TelaHospitaisFrame telaHosp = new TelaHospitaisFrame(hospital);
             telaHosp.setVisible(true);
             this.dispose();
         }

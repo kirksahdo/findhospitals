@@ -4,7 +4,18 @@
  */
 package br.com.pelk.findhospital.frames;
 
+import br.com.pelk.findhospital.backend.services.ClinicService;
+import br.com.pelk.findhospital.backend.services.DoctorService;
+import br.com.pelk.findhospital.backend.services.UserService;
+import br.com.pelk.findhospital.exceptions.ClinicNotFoundException;
+import br.com.pelk.findhospital.exceptions.UserNotFoundException;
+import br.com.pelk.findhospital.models.Clinic;
+import br.com.pelk.findhospital.models.Doctor;
 import br.com.pelk.findhospital.models.Hospital;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -13,16 +24,42 @@ import br.com.pelk.findhospital.models.Hospital;
 public class TelaHospitaisFrame extends javax.swing.JFrame {
     
     private Hospital hospital;
+    private ArrayList<Clinic> clinics = new ArrayList<>();
+    private ArrayList<Doctor> doctors = new ArrayList<>();
     
     public TelaHospitaisFrame(Hospital hospital) {
         setLocationRelativeTo(null);
         initComponents();
         this.hospital = hospital;
+        getData();
+        
     }
 
     public TelaHospitaisFrame() {
         setLocationRelativeTo(null);
         initComponents();
+    }
+    
+    private void getData() { 
+        lblHospitalName.setText("Hospital " + this.hospital.getName());
+        for (String clinicId : hospital.getClinics()) {
+            try {
+                Clinic clinic = ClinicService.getClinic(clinicId);
+                for (String doctorId : clinic.getListDoctors()) { 
+                    try {
+                        Doctor doctor = (Doctor) UserService.getUser(doctorId);
+                        this.doctors.add(doctor);
+                        this.cbDoctors.addItem(doctor.getName());
+                    } catch (UserNotFoundException ex) {
+                        Logger.getLogger(TelaHospitaisFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                this.clinics.add(clinic);
+                this.cbClinics.addItem(clinic.getSpecialization());
+            } catch (ClinicNotFoundException ex) {
+                Logger.getLogger(TelaHospitaisFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     /**
@@ -35,30 +72,34 @@ public class TelaHospitaisFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbClinics = new javax.swing.JComboBox<>();
         lblHospitalName = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cbDoctors = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        cbClinics.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                cbClinicsActionPerformed(evt);
             }
         });
 
+        lblHospitalName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblHospitalName.setText("Hospital Cuevas");
 
         jLabel2.setText("Clinicas");
 
         jLabel3.setText("Médicos");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbDoctors.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbDoctorsActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Avançar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -89,19 +130,15 @@ public class TelaHospitaisFrame extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addComponent(jLabel2)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addComponent(lblHospitalName))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(128, 128, 128)
-                                .addComponent(jLabel3))))
+                        .addGap(128, 128, 128)
+                        .addComponent(jLabel3))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(29, 29, 29)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbClinics, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(97, 97, 97)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbDoctors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(52, Short.MAX_VALUE))
+            .addComponent(lblHospitalName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,8 +151,8 @@ public class TelaHospitaisFrame extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbDoctors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbClinics, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
@@ -147,9 +184,9 @@ public class TelaHospitaisFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void cbClinicsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbClinicsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_cbClinicsActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -164,6 +201,10 @@ public class TelaHospitaisFrame extends javax.swing.JFrame {
         agenda.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void cbDoctorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDoctorsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbDoctorsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -202,10 +243,10 @@ public class TelaHospitaisFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbClinics;
+    private javax.swing.JComboBox<String> cbDoctors;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

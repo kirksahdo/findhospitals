@@ -8,25 +8,25 @@ public class Clinic implements Serializable{
     private String id;
     private String specialization;
     private ArrayList<String> listDoctors;
-    private Schedule schedule;
+    private String scheduleId;
     
     public Clinic() {	
     }
     
-    public Clinic(String id, String specialization, String doctor, Schedule schedule) {
+    public Clinic(String id, String specialization, String doctor, String scheduleId) {
         super();
         this.id = id;
         this.specialization = specialization;
         this.listDoctors = new ArrayList<>(Arrays.asList(doctor));
-        this.schedule = schedule;
+        this.scheduleId = scheduleId;
     }
     
-    public Clinic(String id, String specialization, ArrayList<String> listDoctors, Schedule schedule) {
+    public Clinic(String id, String specialization, ArrayList<String> listDoctors, String scheduleId) {
         super();
         this.id = id;
         this.specialization = specialization;
         this.listDoctors = listDoctors;
-        this.schedule = schedule;
+        this.scheduleId = scheduleId;
     }
     
     public String getSpecialization() {
@@ -54,14 +54,13 @@ public class Clinic implements Serializable{
     public void setListDoctors(ArrayList<String> listDoctors) {
         this.listDoctors = listDoctors;
     }
-   
-    
-    public Schedule getSchedule() {
-        return schedule;
+
+    public String getScheduleId() {
+        return scheduleId;
     }
-    
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
+
+    public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
     }
 
     public String getId() {

@@ -196,8 +196,9 @@ public class TelaHospitaisFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        AgendaMedicoFrame agenda = new AgendaMedicoFrame();
+        Doctor doctor = this.doctors.get(cbDoctors.getSelectedIndex());
+        Clinic clinic = this.clinics.get(cbClinics.getSelectedIndex());
+        AgendaMedicoFrame agenda = new AgendaMedicoFrame(this.hospital, doctor, clinic);
         agenda.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed

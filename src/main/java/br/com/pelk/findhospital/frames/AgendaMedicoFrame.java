@@ -4,6 +4,9 @@
  */
 package br.com.pelk.findhospital.frames;
 
+import br.com.pelk.findhospital.models.Clinic;
+import br.com.pelk.findhospital.models.Doctor;
+import br.com.pelk.findhospital.models.Hospital;
 import java.util.Date;
 
 /**
@@ -12,16 +15,32 @@ import java.util.Date;
  */
 public class AgendaMedicoFrame extends javax.swing.JFrame{
 
-    /**
-     * Creates new form AgendaMedicoFrame
-     */
+    private Hospital hospital;
+    private Doctor doctor;
+    private Clinic clinic;
+    
     public AgendaMedicoFrame() {
         setLocationRelativeTo(null);
         initComponents();
-        DateSet();
+        setComponents();
     }
     
-    public void DateSet(){
+    public AgendaMedicoFrame(Hospital hospital, Doctor doctor, Clinic clinic) {
+        this.hospital = hospital;
+        this.doctor = doctor;
+        this.clinic = clinic;
+        setLocationRelativeTo(null);
+        initComponents();
+        setComponents();       
+        
+    }
+    
+    private void setComponents() {
+        this.lblDoctorName.setText("Médico: " + this.doctor.getName());
+        setDate();
+    }
+    
+    private void setDate(){
         Date date = new Date();
         jDateChooser1.setDate(date);
         jDateChooser1.setMinSelectableDate(date);
@@ -37,7 +56,7 @@ public class AgendaMedicoFrame extends javax.swing.JFrame{
 
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        lblDoctorName = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
@@ -59,8 +78,8 @@ public class AgendaMedicoFrame extends javax.swing.JFrame{
             }
         });
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("NomeMedico");
+        lblDoctorName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDoctorName.setText("NomeMedico");
 
         jLabel2.setText("Escolha a data da consulta:");
 
@@ -74,7 +93,7 @@ public class AgendaMedicoFrame extends javax.swing.JFrame{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(76, 76, 76)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblDoctorName, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(71, 71, 71)
@@ -97,7 +116,7 @@ public class AgendaMedicoFrame extends javax.swing.JFrame{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblDoctorName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -171,8 +190,8 @@ public class AgendaMedicoFrame extends javax.swing.JFrame{
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel lblDoctorName;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,11 +5,9 @@
 package br.com.pelk.findhospital.frames;
 
 import br.com.pelk.findhospital.backend.serialization.HospitalSerialization;
-import br.com.pelk.findhospital.backend.services.HospitalService;
 import br.com.pelk.findhospital.models.Hospital;
 import br.com.pelk.findhospital.tablemodels.HospitalTableModel;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 
 /**
  *

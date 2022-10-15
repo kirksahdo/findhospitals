@@ -13,7 +13,6 @@ import br.com.pelk.findhospital.models.User;
 import br.com.pelk.findhospital.tablemodels.AppointmentTableModel;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;

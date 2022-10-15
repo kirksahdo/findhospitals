@@ -8,9 +8,6 @@ import br.com.pelk.findhospital.backend.services.UserService;
 import br.com.pelk.findhospital.exceptions.UserNotFoundException;
 import br.com.pelk.findhospital.models.Doctor;
 import br.com.pelk.findhospital.models.User;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /**

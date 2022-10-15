@@ -3,16 +3,9 @@ package br.com.pelk.findhospital.tablemodels;
 import br.com.pelk.findhospital.models.Hospital;
 import br.com.pelk.findhospital.models.Localization;
 import java.awt.Color;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 
 public class HospitalTableModel extends AbstractTableModel {

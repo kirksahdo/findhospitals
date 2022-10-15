@@ -5,7 +5,6 @@
 package br.com.pelk.findhospital.frames;
 
 import br.com.pelk.findhospital.backend.services.ClinicService;
-import br.com.pelk.findhospital.backend.services.DoctorService;
 import br.com.pelk.findhospital.backend.services.UserService;
 import br.com.pelk.findhospital.exceptions.ClinicNotFoundException;
 import br.com.pelk.findhospital.exceptions.UserNotFoundException;
@@ -15,7 +14,6 @@ import br.com.pelk.findhospital.models.Hospital;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultComboBoxModel;
 
 /**
  *

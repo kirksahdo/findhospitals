@@ -7,9 +7,6 @@ import br.com.pelk.findhospital.backend.services.UserService;
 import br.com.pelk.findhospital.exceptions.*;
 import br.com.pelk.findhospital.models.Localization;
 import br.com.pelk.findhospital.models.User;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 
 /**

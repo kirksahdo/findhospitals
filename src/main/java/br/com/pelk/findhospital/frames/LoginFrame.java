@@ -5,6 +5,11 @@
 package br.com.pelk.findhospital.frames;
 
 import br.com.pelk.findhospital.backend.services.UserService;
+import br.com.pelk.findhospital.exceptions.UserNotFoundException;
+import br.com.pelk.findhospital.models.Doctor;
+import br.com.pelk.findhospital.models.User;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -146,9 +151,19 @@ public class LoginFrame extends javax.swing.JFrame {
         String username = txtUsername.getText();
         String password = new String(txtPassword.getPassword());
         if (UserService.login(username, password)){
-            TelaPrincipalFrame tp = new TelaPrincipalFrame();
-            tp.setVisible(true);
-            this.dispose();
+            try {
+                User user = UserService.getUserByUsername(username);
+                if (user instanceof Doctor) {
+                    AdminFrame af = new AdminFrame();
+                    af.setVisible(true);
+                } else {
+                    TelaPrincipalFrame tp = new TelaPrincipalFrame();
+                    tp.setVisible(true);
+                }
+                this.dispose();
+            } catch (UserNotFoundException ex) {
+                JOptionPane.showMessageDialog(this, "Usuário e/ou senha inválida!", "Erro!", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Usuário e/ou senha inválida!", "Erro!", JOptionPane.ERROR_MESSAGE);
         }

@@ -76,6 +76,12 @@ public class Localization implements Serializable{
         return this.road;
         
     }
+
+    @Override
+    public String toString() {
+        return road + ", " + district + " - N " + number + " - CEP: " +  cep;
+    }
+    
     
     
     

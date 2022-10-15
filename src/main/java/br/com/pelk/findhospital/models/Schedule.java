@@ -1,9 +1,6 @@
 package br.com.pelk.findhospital.models;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class Schedule {
 	private ArrayList<Appointment> appointments = new ArrayList<Appointment>();

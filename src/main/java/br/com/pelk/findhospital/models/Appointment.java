@@ -1,4 +1,5 @@
 package br.com.pelk.findhospital.models;
+import br.com.pelk.findhospital.backend.services.ClinicService;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,11 +10,11 @@ import java.time.LocalDateTime;
 public class Appointment implements Serializable{
 	private User user;
 	private LocalDateTime appointmentDate;
-	private Doctor doctor;
-	private Clinic clinic;
+	private String doctor;
+	private String clinic;
 	
 	
-	public Appointment(User user, int year, int month, int day, int hour, int minute, Doctor doctor, Clinic clinic) {
+	public Appointment(User user, int year, int month, int day, int hour, int minute, String doctorId, String clinicId) {
 		super();
 		this.user = user;
 		try {
@@ -21,13 +22,15 @@ public class Appointment implements Serializable{
 		}catch (DateTimeException e) {
 			e.printStackTrace();
 		}
-		this.doctor = doctor;
-		this.clinic = clinic;
+		this.doctor = doctorId;
+		this.clinic = clinicId;
 	}
 	
 	@Override
 	public String toString() {
-		return user.getId() + "/" + user.getName() + " " + user.getLastName() + "---" + clinic.getSpecialization() + "-" + doctor.getName() + "--- Data:" + appointmentDate;
+            Clinic clinic = ClinicService.getClinic(this.clinic);
+            Clinic doctor = ClinicService.getClinic(this.clinic);
+            return user.getId() + "/" + user.getName() + " " + user.getLastName() + "---" + clinic.getSpecialization() + "-" + doctor.getName() + "--- Data:" + appointmentDate;
 	}
 	public User getUser() {
 		return user;
@@ -44,17 +47,17 @@ public class Appointment implements Serializable{
 		this.appointmentDate = appointmentDate;
 	}
 
-	public Doctor getDoctor() {
+	public String getDoctor() {
 		return doctor;
 	}
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
+	public void setDoctor(String doctorId) {
+		this.doctor = doctorId;
 	}
-	public Clinic getClinic() {
+	public String getClinic() {
 		return clinic;
 	}
-	public void setClinic(Clinic clinic) {
-		this.clinic = clinic;
+	public void setClinic(String clinicId) {
+		this.clinic = clinicId;
 	}
 	
 	

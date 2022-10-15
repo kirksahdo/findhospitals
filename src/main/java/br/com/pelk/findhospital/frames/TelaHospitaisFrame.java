@@ -4,20 +4,27 @@
  */
 package br.com.pelk.findhospital.frames;
 
+import br.com.pelk.findhospital.models.Hospital;
+
 /**
  *
  * @author eric
  */
 public class TelaHospitaisFrame extends javax.swing.JFrame {
+    
+    private Hospital hospital;
+    
+    public TelaHospitaisFrame(Hospital hospital) {
+        setLocationRelativeTo(null);
+        initComponents();
+        this.hospital = hospital;
+    }
 
-    /**
-     * Creates new form TelaHospitaisFrame
-     */
     public TelaHospitaisFrame() {
         setLocationRelativeTo(null);
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,7 +36,7 @@ public class TelaHospitaisFrame extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
+        lblHospitalName = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
@@ -45,7 +52,7 @@ public class TelaHospitaisFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Hospital Cuevas");
+        lblHospitalName.setText("Hospital Cuevas");
 
         jLabel2.setText("Clinicas");
 
@@ -85,7 +92,7 @@ public class TelaHospitaisFrame extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(24, 24, 24)
-                                .addComponent(jLabel1))
+                                .addComponent(lblHospitalName))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(128, 128, 128)
                                 .addComponent(jLabel3))))
@@ -100,7 +107,7 @@ public class TelaHospitaisFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(11, 11, 11)
-                .addComponent(jLabel1)
+                .addComponent(lblHospitalName)
                 .addGap(37, 37, 37)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -199,9 +206,9 @@ public class TelaHospitaisFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblHospitalName;
     // End of variables declaration//GEN-END:variables
 }

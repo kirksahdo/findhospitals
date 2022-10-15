@@ -4,20 +4,57 @@
  */
 package br.com.pelk.findhospital.frames;
 
+import br.com.pelk.findhospital.backend.services.ScheduleService;
+import br.com.pelk.findhospital.backend.services.UserService;
+import br.com.pelk.findhospital.exceptions.ScheduleNotFoundException;
+import br.com.pelk.findhospital.models.Appointment;
+import br.com.pelk.findhospital.models.Schedule;
+import br.com.pelk.findhospital.models.User;
+import br.com.pelk.findhospital.tablemodels.AppointmentTableModel;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author eric
  */
 public class ConsultaFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ConsultaFrame
-     */
+    private AppointmentTableModel appointmentTableModel;
+    private ArrayList<Schedule> schedules;
+    
     public ConsultaFrame() {
         setLocationRelativeTo(null);
         initComponents();
+        this.appointmentTableModel = new AppointmentTableModel();
+        tableAppointment.setModel(appointmentTableModel);
+        fillTable();
     }
 
+    private void fillTable() {
+        User userLogged = UserService.getUser();
+        ArrayList<Appointment> appointments = new ArrayList<>();
+        this.schedules = new ArrayList<>();
+        for (Schedule schedule : ScheduleService.getSchedules()) {
+            for(Appointment appointment : schedule.getAppointments()) {
+                if(userLogged.getId().equals(appointment.getUser().getId())) {
+                    appointments.add(appointment);
+                    if (!schedules.contains(schedule)){
+                        schedules.add(schedule);
+                    }
+                }
+            }
+        }
+        appointments.sort((o1, o2) -> {
+            return -1*o2.getAppointmentDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")).compareToIgnoreCase(o1.getAppointmentDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+        });
+        this.appointmentTableModel.setList(appointments);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,7 +67,7 @@ public class ConsultaFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableAppointment = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -41,7 +78,7 @@ public class ConsultaFrame extends javax.swing.JFrame {
         jLabel1.setText("Consultas marcadas");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, -1, -1));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableAppointment.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -52,13 +89,12 @@ public class ConsultaFrame extends javax.swing.JFrame {
                 "Hospital", "Medico", "Data ", "Hora"
             }
         ));
-        jTable1.setAutoscrolls(false);
-        jTable1.setFocusable(false);
-        jTable1.setOpaque(false);
-        jTable1.setRequestFocusEnabled(false);
-        jTable1.setRowSelectionAllowed(true);
-        jTable1.setShowHorizontalLines(true);
-        jScrollPane1.setViewportView(jTable1);
+        tableAppointment.setAutoscrolls(false);
+        tableAppointment.setFocusable(false);
+        tableAppointment.setOpaque(false);
+        tableAppointment.setRequestFocusEnabled(false);
+        tableAppointment.setShowHorizontalLines(true);
+        jScrollPane1.setViewportView(tableAppointment);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 40, 375, 215));
 
@@ -71,6 +107,11 @@ public class ConsultaFrame extends javax.swing.JFrame {
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(85, 273, -1, -1));
 
         jButton2.setText("Cancelar consulta");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 273, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -103,6 +144,25 @@ public class ConsultaFrame extends javax.swing.JFrame {
         tp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int selectedIndex = this.tableAppointment.getSelectedRow();
+        if (selectedIndex < 0) return;
+        Appointment appointment = this.appointmentTableModel.getValueAt(selectedIndex);
+        for(Schedule s : schedules) {
+            if (s.getAppointments().contains(appointment)) {
+                s.getAppointments().remove(appointment);
+                try {
+                    ScheduleService.editSchedule(s);
+                    JOptionPane.showMessageDialog(this, "Consulta cancelada com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+                    this.fillTable();
+                } catch (ScheduleNotFoundException ex) {
+                    JOptionPane.showMessageDialog(this, "Erro ao cancelar consulta, consulte um administrador!", "Erro!", JOptionPane.ERROR_MESSAGE);
+                    Logger.getLogger(ConsultaFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,6 +207,6 @@ public class ConsultaFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableAppointment;
     // End of variables declaration//GEN-END:variables
 }

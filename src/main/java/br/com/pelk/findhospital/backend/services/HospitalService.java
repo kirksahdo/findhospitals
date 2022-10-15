@@ -21,6 +21,16 @@ public final class HospitalService {
         throw new HospitalNotFoundException();
     }
     
+    public static Hospital getHospitalByClinicId(String id) throws HospitalNotFoundException {
+        ArrayList<Hospital> hospitals = HospitalSerialization.readFile();
+        for(Hospital u : hospitals) { 
+            if (u.getClinics().contains(id)) { 
+                return u;
+            }
+        }
+        throw new HospitalNotFoundException();
+    }
+    
     public static void deleteHospital(Hospital hospital) throws HospitalNotFoundException {
         ArrayList<Hospital> hospitals = HospitalSerialization.readFile();
         

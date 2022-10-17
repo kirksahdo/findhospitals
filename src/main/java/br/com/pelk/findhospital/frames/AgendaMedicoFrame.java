@@ -34,8 +34,9 @@ public class AgendaMedicoFrame extends javax.swing.JFrame{
         this.hospital = hospital;
         this.doctor = doctor;
         this.clinic = clinic;
-        setLocationRelativeTo(null);
         initComponents();
+        setLocationRelativeTo(null);
+        setTitle("FindHospitals - Agenda");
         setComponents();       
         
     }

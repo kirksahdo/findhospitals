@@ -36,13 +36,14 @@ public class ConfirmarConsultaFrame extends javax.swing.JFrame {
     }
     
     public ConfirmarConsultaFrame(AgendaMedicoFrame agendaMedicoFrame, Hospital hospital, Clinic clinic, Doctor doctor, Appointment appointment) {
-        setLocationRelativeTo(null);
         this.agendaMedicoFrame = agendaMedicoFrame;
         this.hospital = hospital;
         this.clinic = clinic;
         this.doctor = doctor;
         this.appointment = appointment;
         initComponents();
+        setTitle("FindHospitals - Confirmar Consulta");
+        setLocationRelativeTo(null);
         setComponentsData();
         
     }

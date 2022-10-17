@@ -6,6 +6,7 @@ package br.com.pelk.findhospital.frames;
 
 import br.com.pelk.findhospital.backend.services.ScheduleService;
 import br.com.pelk.findhospital.backend.services.UserService;
+import br.com.pelk.findhospital.exceptions.ScheduleNotFoundException;
 import br.com.pelk.findhospital.exceptions.UserNotFoundException;
 import br.com.pelk.findhospital.models.Appointment;
 import br.com.pelk.findhospital.models.Doctor;
@@ -17,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -39,8 +41,9 @@ public class Admin2Frame extends javax.swing.JFrame {
 
     public Admin2Frame(String date) {
         this.date = date;
-        setLocationRelativeTo(null);
         initComponents();
+        setLocationRelativeTo(null);
+        setTitle("FindHospitals - Agenda");
         this.appointmentDoctorTableModel = new AppointmentDoctorTableModel();
         this.tableAppointments.setModel(appointmentDoctorTableModel);
         setComponents();
@@ -143,6 +146,11 @@ public class Admin2Frame extends javax.swing.JFrame {
         jButton2.setText("Finalizar Dia");
 
         jButton3.setText("Finalizar Consulta");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -184,6 +192,27 @@ public class Admin2Frame extends javax.swing.JFrame {
         adm.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        int selectedIndex = this.tableAppointments.getSelectedRow();
+        System.out.println(selectedIndex);
+        if (selectedIndex < 0) return;
+        Appointment appointment = this.appointmentDoctorTableModel.getValueAt(selectedIndex);
+        ArrayList<Schedule> schedules = ScheduleService.getSchedules();
+        for(Schedule s : schedules) {
+            if (s.getAppointments().contains(appointment)) {
+                s.getAppointments().remove(appointment);
+                try {
+                    ScheduleService.editSchedule(s);
+                    JOptionPane.showMessageDialog(this, "Consulta finalizada com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+                    this.setDataTable();
+                } catch (ScheduleNotFoundException ex) {
+                    JOptionPane.showMessageDialog(this, "Erro ao cancelar consulta, consulte um administrador!", "Erro!", JOptionPane.ERROR_MESSAGE);
+                    Logger.getLogger(ConsultaFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

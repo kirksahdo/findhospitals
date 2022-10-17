@@ -27,8 +27,9 @@ public class ConsultaFrame extends javax.swing.JFrame {
     private ArrayList<Schedule> schedules;
     
     public ConsultaFrame() {
-        setLocationRelativeTo(null);
         initComponents();
+        setTitle("FindHospitals - Consultas");
+        setLocationRelativeTo(null);
         this.appointmentTableModel = new AppointmentTableModel();
         tableAppointment.setModel(appointmentTableModel);
         fillTable();

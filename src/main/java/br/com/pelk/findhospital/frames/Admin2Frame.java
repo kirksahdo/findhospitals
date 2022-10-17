@@ -4,20 +4,76 @@
  */
 package br.com.pelk.findhospital.frames;
 
+import br.com.pelk.findhospital.backend.services.ScheduleService;
+import br.com.pelk.findhospital.backend.services.UserService;
+import br.com.pelk.findhospital.exceptions.UserNotFoundException;
+import br.com.pelk.findhospital.models.Appointment;
+import br.com.pelk.findhospital.models.Doctor;
+import br.com.pelk.findhospital.models.Schedule;
+import br.com.pelk.findhospital.models.User;
+import br.com.pelk.findhospital.tablemodels.AppointmentDoctorTableModel;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author eric
  */
 public class Admin2Frame extends javax.swing.JFrame {
 
+    private String date;
+    private AppointmentDoctorTableModel appointmentDoctorTableModel;
     /**
      * Creates new form Admin2Frame
      */
     public Admin2Frame() {
-        setLocationRelativeTo(null);
         initComponents();
+        setLocationRelativeTo(null);
+        setTitle("FindHospitals - Agenda");
+        setComponents();
+        setDataTable();
     }
 
+    public Admin2Frame(String date) {
+        this.date = date;
+        setLocationRelativeTo(null);
+        initComponents();
+        this.appointmentDoctorTableModel = new AppointmentDoctorTableModel();
+        this.tableAppointments.setModel(appointmentDoctorTableModel);
+        setComponents();
+        setDataTable();
+    }
+    
+    private void setComponents() { 
+        this.lblDayDate.setText("Dia " + this.date);
+    }
+    
+    private void setDataTable() { 
+        ArrayList<Appointment> appointments = new ArrayList<>();
+        User userLogged = UserService.getUser();
+        for (Schedule schedule : ScheduleService.getSchedules()) {
+            for (Appointment appointment : schedule.getAppointments()) {
+                try {
+                    LocalDateTime ldt = appointment.getAppointmentDate();
+                    String dateAp = ldt.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                    Doctor doctor = (Doctor) UserService.getUser(appointment.getDoctor());
+                    if(dateAp.equalsIgnoreCase(this.date) && doctor.getId().equalsIgnoreCase(userLogged.getId())) {
+                        appointments.add(appointment);
+                    }
+                } catch (UserNotFoundException ex) {
+                    Logger.getLogger(Admin2Frame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        appointments.sort((o1, o2) -> {
+            return o1.getAppointmentDate().compareTo(o2.getAppointmentDate());
+        });
+        this.appointmentDoctorTableModel.setList(appointments);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,8 +85,8 @@ public class Admin2Frame extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        tableAppointments = new javax.swing.JTable();
+        lblDayDate = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -39,7 +95,7 @@ public class Admin2Frame extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableAppointments.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"13:00", "Joao"},
                 {"14:00", "Pedro"},
@@ -50,9 +106,9 @@ public class Admin2Frame extends javax.swing.JFrame {
                 "Horario", "Paciente"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableAppointments);
 
-        jLabel1.setText("Dia dd/mm/aaaa");
+        lblDayDate.setText("Dia dd/mm/aaaa");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -64,14 +120,14 @@ public class Admin2Frame extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(126, 126, 126)
-                        .addComponent(jLabel1)))
+                        .addComponent(lblDayDate)))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(lblDayDate)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(31, Short.MAX_VALUE))
@@ -169,9 +225,9 @@ public class Admin2Frame extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblDayDate;
+    private javax.swing.JTable tableAppointments;
     // End of variables declaration//GEN-END:variables
 }

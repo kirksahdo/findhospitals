@@ -20,8 +20,9 @@ public class LoginFrame extends javax.swing.JFrame {
      * Creates new form LoginFrame
      */
     public LoginFrame() {
-        setLocationRelativeTo(null);
         initComponents();
+        setTitle("FindHospitals - Login");
+        setLocationRelativeTo(null);
     }
 
     /**

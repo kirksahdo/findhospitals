@@ -20,8 +20,9 @@ public class RegisterFrame extends javax.swing.JFrame {
      * Creates new form RegisterFrame
      */
     public RegisterFrame() {
-        setLocationRelativeTo(null);
         initComponents();
+        setTitle("FindHospitals - Registrar-se");
+        setLocationRelativeTo(null);
     }
 
     /**

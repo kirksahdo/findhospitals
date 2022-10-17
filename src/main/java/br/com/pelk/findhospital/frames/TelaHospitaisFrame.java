@@ -26,8 +26,9 @@ public class TelaHospitaisFrame extends javax.swing.JFrame {
     private ArrayList<Doctor> doctors = new ArrayList<>();
     
     public TelaHospitaisFrame(Hospital hospital) {
-        setLocationRelativeTo(null);
         initComponents();
+        setTitle("FindHospitals - Hospitais");
+        setLocationRelativeTo(null);
         this.hospital = hospital;
         getData();
         

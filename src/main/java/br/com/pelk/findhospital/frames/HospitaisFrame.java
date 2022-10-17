@@ -18,8 +18,9 @@ public class HospitaisFrame extends javax.swing.JFrame {
     private HospitalTableModel hospitalTableModel;
     
     public HospitaisFrame() {
-        setLocationRelativeTo(null);
         initComponents();  
+        setTitle("FindHospitals - Hospitais de Região");
+        setLocationRelativeTo(null);
         hospitalTableModel = new HospitalTableModel();
         tableHospitals.setModel(hospitalTableModel);
         fillTable();

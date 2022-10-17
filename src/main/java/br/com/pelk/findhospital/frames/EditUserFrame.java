@@ -15,11 +15,21 @@ import javax.swing.*;
  */
 public class EditUserFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form EditUserFrame
-     */
+    private TelaPrincipalFrame tpf;
+    
     public EditUserFrame() {
         initComponents();
+        setTitle("FindHospitals - Editar Perfil");
+        setLocationRelativeTo(null);
+        fillFields();
+    }
+    
+    public EditUserFrame(TelaPrincipalFrame tpf) {
+        this.tpf = tpf;
+        this.tpf.setEnabled(false);
+        initComponents();
+        setTitle("FindHospitals - Editar Perfil");
+        setLocationRelativeTo(null);
         fillFields();
     }
 
@@ -282,6 +292,7 @@ public class EditUserFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void txtNomeAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_txtNomeAncestorAdded
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeAncestorAdded
@@ -306,10 +317,13 @@ public class EditUserFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtLocationActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        TelaPrincipalFrame fp = new TelaPrincipalFrame();
-        fp.setVisible(true);
+    private void closeFrame() { 
+        this.tpf.setEnabled(true);
         this.dispose();
+    }
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.closeFrame();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -340,9 +354,7 @@ public class EditUserFrame extends javax.swing.JFrame {
             UserService.editUser(newUserData);
             UserService.setUser(newUserData);
             JOptionPane.showMessageDialog(this, "Usuário Editado com sucesso!", "Sucesso!", JOptionPane.DEFAULT_OPTION);
-            TelaPrincipalFrame fp = new TelaPrincipalFrame();
-            fp.setVisible(true);
-            this.dispose();
+            this.closeFrame();
         } catch (UserNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Usuário com erro", "Erro!", JOptionPane.ERROR_MESSAGE);
         }
